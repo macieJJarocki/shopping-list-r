@@ -1,17 +1,17 @@
 import React from "react";
 
-const Filter = ({productSubstring, handleSubmit, handleChange}) => {
+const Filter = ({productSubstring, setProductSubstring}) => {
   return(
-    <form onSubmit={handleSubmit}>
-        <label htmlFor="searchhtmlFor">Search</label>
+    <form onSubmit={(e) => e.preventDefault()}>
+        <label htmlFor="searchhtmlFor">Search:</label>
         <input 
         type="text"
+        role='searchbox'
         value={productSubstring}
         required
-        onChange={(e) => handleChange(e.target.value)}/>
+        onChange={(e) => setProductSubstring(e.target.value)}/>
     </form>
     )
-    
 };
 
 export default Filter;

@@ -26,28 +26,15 @@ function App() {
       setProductsList(products)
   }
 
-  function handleSubmit(event){
-    event.preventDefault()
-  }
-
-  function handleChange(inputValue){
-    if(inputValue){
-      setProductSubstring(inputValue)
-      
-    }
-
-  }
-
   return (
     <div className={styles.appWrapper}>
       <Filter
         productSubstring={productSubstring}
-        handleSubmit={handleSubmit}
-        handleChange={handleChange}
+        setProductSubstring={setProductSubstring}
       />
       <div className={styles.columnsWrapper}>
         <ProductsList
-          products={products}
+          products={products.filter((product) => product.name.includes(productSubstring))}
           handleLeftClick={handleLeftClick}
         />
         <ShoppingList 
