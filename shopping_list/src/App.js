@@ -3,10 +3,12 @@ import styles from'./App.scss';
 import ProductsList from './Components/ProductsList';
 import ShoppingList from './Components/ShoppingList';
 import { useState } from 'react';
-import {products} from './common/products'
+import {products as p} from './common/products'
 import Filter from './Components/Filter';
 
 function App() {
+  const [products, setProducts] = useState(p)
+
   const[productsList, setProductsList] = useState([])
 
   const [productSubstring, setProductSubstring] = useState('')
