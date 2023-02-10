@@ -4,19 +4,12 @@ import ProductsList from './Components/ProductsList';
 import ShoppingList from './Components/ShoppingList';
 import { useState } from 'react';
 import {products} from './common/products'
-
-
-// TODO
-
-// 1. po klikniecu prawym przyciskiem myszy
-// usuwane sa wszystkie takie same elementy z componentu ShoppingList
-
-// klucze 
-
-
+import Filter from './Components/Filter';
 
 function App() {
   const[productsList, setProductsList] = useState([])
+
+  const [productSubstring, setProductSubstring] = useState('')
 
   function handleLeftClick(productName){
     const product = products.filter((product) =>
@@ -31,8 +24,25 @@ function App() {
       setProductsList(products)
   }
 
+  function handleSubmit(event){
+    event.preventDefault()
+  }
+
+  function handleChange(inputValue){
+    if(inputValue){
+      setProductSubstring(inputValue)
+      
+    }
+
+  }
+
   return (
     <div className={styles.appWrapper}>
+      <Filter
+        productSubstring={productSubstring}
+        handleSubmit={handleSubmit}
+        handleChange={handleChange}
+      />
       <div className={styles.columnsWrapper}>
         <ProductsList
           products={products}
