@@ -26,15 +26,20 @@ function App() {
       setProductsList(products)
   }
 
+  
+
   return (
     <div className={styles.appWrapper}>
       <Filter
         productSubstring={productSubstring}
         setProductSubstring={setProductSubstring}
+        products={products}
+        setProducts={setProducts}
+       
       />
       <div className={styles.columnsWrapper}>
         <ProductsList
-          products={products.filter((product) => product.name.includes(productSubstring))}
+          products={products}
           handleLeftClick={handleLeftClick}
         />
         <ShoppingList 
