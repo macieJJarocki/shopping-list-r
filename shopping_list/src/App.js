@@ -2,9 +2,10 @@ import logo from './logo.svg';
 import styles from'./App.scss';
 import ProductsList from './Components/ProductsList';
 import ShoppingList from './Components/ShoppingList';
+import Filter from './Components/Filter';
+import AddProduct from './Components/AddProduct';
 import { useState } from 'react';
 import {products as p} from './common/products'
-import Filter from './Components/Filter';
 
 function App() {
   const [products, setProducts] = useState(p)
@@ -26,7 +27,14 @@ function App() {
       setProductsList(products)
   }
 
-  
+  function handleNewProduct(name, isFood, category){
+    const product = {
+      name: name,
+      category: category,
+      foodProduct: isFood
+    }
+    setProducts([...products, product])
+  }
 
   return (
     <div className={styles.appWrapper}>
@@ -47,6 +55,9 @@ function App() {
           handleRightClick={handleRightClick}
         />
       </div>
+        <AddProduct
+        handleNewProduct={handleNewProduct}
+        />
     </div>
   );
 }
