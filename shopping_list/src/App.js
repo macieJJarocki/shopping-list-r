@@ -27,7 +27,14 @@ function App() {
       setProductsList(products)
   }
 
-  
+  function handleNewProduct(name, isFood, category){
+    const product = {
+      name: name,
+      category: category,
+      foodProduct: isFood
+    }
+    setProducts([...products, product])
+  }
 
   return (
     <div className={styles.appWrapper}>
@@ -47,11 +54,10 @@ function App() {
           products={productsList}
           handleRightClick={handleRightClick}
         />
-        <AddProduct
-        products={products}
-        setProducts={setProducts}
-        />
       </div>
+        <AddProduct
+        handleNewProduct={handleNewProduct}
+        />
     </div>
   );
 }

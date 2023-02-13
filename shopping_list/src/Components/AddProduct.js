@@ -1,47 +1,45 @@
-import React, { useState } from "react";
+import { Component } from "react";
 
-const AddProduct = ({setProducts, products}) => {
-    const [productName, setProductName] = useState('')
-    const [productIsFood, setProductIsFood] = useState(false)
-    const [productCategory, setProductCategory] =useState('')
+export default class AddProduct extends Component {
 
-    function handleAddProductClick(){
-        if(productName && productCategory){
-            const newProduct = {
-                name: productName,
-                category: productCategory,
-                foodProduct: productIsFood,
-            }
-            setProducts([...products, newProduct])
+    constructor(props){
+        super(props)
+
+        this.state = {
+            productName: '',
+            productIsFood: false,
+            productCategory: ''
         }
     }
 
-   
-  return (
-    <form onSubmit={(e) => e.preventDefault()}>
+  render() {
+    return(
+        <form 
+        onSubmit={(e) => e.preventDefault()}
+    >
         <label>Product:</label>
         <input type="text" 
-        onChange={(e) => setProductName(e.target.value)}
-        required
-        minLength='3'
+            onChange={(e) => this.setState({productName: e.target.value})}
+            required
+            minLength='3'
         />
         <label>FoodProduct:</label>
-        <input type="checkbox" 
-        onClick={() => setProductIsFood(true)}
+        <input type="checkbox"
+            onChange={(e) => this.setState({productIsFood: !this.state.productIsFood})}
         />
         <label>Category</label>
         <input type="text" 
-        onChange={(e) => setProductCategory(e.target.value)}
-        required
-        minLength='3'
+            onChange={(e) => this.setState({productCategory: e.target.value})}
+            required
+            minLength='3'
         />
         <button
-        onClick={() => handleAddProductClick()}
-        
-        >Add Product</button>
-
+            onClick={() => this.props.handleNewProduct(this.state.productName, this.state.productIsFood, this.state.productCategory)}
+        >
+            Add Product
+        </button>
     </form>
-  );
-};
+    )
+  }
+}
 
-export default AddProduct;
