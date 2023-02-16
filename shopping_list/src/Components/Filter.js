@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react"
+import styles from "../App.module.scss"
 const Filter = ({products, setProductsToDisplay}) => {
   
   const [phrase, setPhrase] = useState("")
@@ -29,7 +30,8 @@ const Filter = ({products, setProductsToDisplay}) => {
   }
 
   return (
-    <form>
+    <div className={styles.Wrapper}>
+      <form>
         <label >Search by phrase: </label>
         <input type="text"
           value={phrase}
@@ -48,6 +50,7 @@ const Filter = ({products, setProductsToDisplay}) => {
           onChange={(e) =>setIsFood( e.target.checked)}
         />
     </form>
+    </div>
   )
 };
 

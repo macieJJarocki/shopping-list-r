@@ -1,5 +1,5 @@
 import logo from './logo.svg';
-import styles from'./App.scss';
+import styles from'./App.module.scss';
 import ProductsList from './Components/ProductsList';
 import ShoppingList from './Components/ShoppingList';
 import Filter from './Components/Filter';
@@ -69,23 +69,25 @@ function App() {
       <Filter
         products={products}
         setProductsToDisplay={setProductsToDisplay}
-       
+      />
+      <AddProduct
+        handleNewProduct={handleNewProduct}
       />
       <div className={styles.columnsWrapper}>
         <ProductsList
           productsToDisplay={productsToDisplay}
           handleLeftClick={handleLeftClick}
-        />
+          />
         <ShoppingList 
           products={productsList}
           handleLeftClickShoppingList={handleLeftClickShoppingList}
           handleIsCrossedChange = {handleIsCrossedChange}
-        />
+          />
       </div>
-        <AddProduct
-        handleNewProduct={handleNewProduct}
-        />
     </div>
+    
+
+
   );
 }
 
