@@ -1,73 +1,54 @@
-import React, { useState, useRef } from "react";
+import { useEffect, useState } from "react"
+const Filter = ({products, setProductsToDisplay}) => {
+  
+  const [phrase, setPhrase] = useState("")
+  const [category, setCategory] = useState("All")
+  const [isFood, setIsFood] = useState(false)
+  
+  useEffect(() =>{
+    handleForm()
+  }, [phrase, category, isFood])
 
-const useConstructor = (callBack = () => {}) => {
-  const hasBeenCalled = useRef(false);
-  if (hasBeenCalled.current) return;
-  callBack();
-  hasBeenCalled.current = true;
-}
+  function returnCategoryOptions(){
+    const categoriesOptions = [...new Set(products.map((product) => product["category"]))]
+    return categoriesOptions.map((category, idx) => {return<option key={idx}>{category}</option>})
+    
+  }
+  
+  function handleForm(){
+    let filteredProducts = products.filter(product => product.name.includes(phrase.toLocaleLowerCase()))
 
-const Filter = ({productSubstring, setProductSubstring, products, setProducts}) => {
-  const [allProducts, setAllProducts] = useState()
-  const [allCategories, setAllCategories] = useState([''])
-  const [category, setCategory] = useState()
+    if(category !== "All"){
+      filteredProducts = filteredProducts.filter(product => product.category === category)
+    }
 
-  useConstructor(() => {
-    setAllProducts(products);
-    setAllCategories(setCategories());
-  });
-
- function setCategories(){
-  console.log('getCategoryOptions');
-    return products.reduce((acc, crr) => {
-      if(!acc.includes(crr.category)){
-        return ([...acc, crr.category])
-      } 
-      return acc
-    }, allCategories)
+    if(isFood){
+      filteredProducts = filteredProducts.filter(product => product.foodProduct === isFood)
+    }
+    setProductsToDisplay(filteredProducts)
   }
 
-  function getCategoryOptions(){
-    return allCategories.map((category, idx) => 
-       <option key={idx}>{category}</option>
-    )
-  }
-
-  function handleFilteredProducts(){
-    const productsFilteredByName = allProducts.filter((product) => product.name.includes(productSubstring))
-    const productsFilteredByCategory = productsFilteredByName.filter((product) => product.category.includes(category))
-    setProducts(productsFilteredByCategory);
-  }
-
-  function handleCategoryChange(categorySelected){
-    setCategory(categorySelected)
-  }
-
-  return(
-    <form onSubmit={(e) => e.preventDefault()}>
-      <label>Search:</label>
-      <input 
-        type="text"
-        role='searchbox'
-        value={productSubstring}
-        required
-        onChange={(e) => setProductSubstring(e.target.value)}/>
-      <label>Select Category:</label>
-      <select 
-        name="category-search" 
-        id="category-search"
-        //value={category}
-        onChange={(e) => handleCategoryChange(e.target.value)}
-      >
-        {getCategoryOptions()}
-      </select>
-      <button
-        onClick={() => handleFilteredProducts()}
+  return (
+    <form>
+        <label >Search by phrase: </label>
+        <input type="text"
+          value={phrase}
+          onChange={(e) => setPhrase(e.target.value)}
+        />
+        <label >Categories</label>
+        <select
+          onChange={(e) => setCategory(e.target.value)}
         >
-          Search
-        </button>
+          <option key="All">All</option>
+          {returnCategoryOptions()}
+        </select>
+        <label >Only food products</label>
+        <input type="checkbox"
+          value={isFood}
+          onChange={(e) =>setIsFood( e.target.checked)}
+        />
     </form>
-    )
+  )
 };
 
 export default Filter;
