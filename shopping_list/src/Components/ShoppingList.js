@@ -1,12 +1,17 @@
-import columnStyles from '../common/commonStyles.scss'
+import styles from '../App.module.scss'
 
 const ShoppingList = ({products, handleLeftClickShoppingList, handleIsCrossedChange}) => {
 
     return (
-        <div className={columnStyles.App}>
-            <h1>Shopping list:</h1>
-            <ul>{products.map((product, idx) => {
-                return  <p key={idx}
+        <div className={styles.App}>
+            <div className={styles.AppList}>
+                <div className={styles.AppHeader}>
+                    <h1>Shopping list:</h1>  
+                </div>
+                <div className={styles.AppList}>
+                <ul>{products.map((product, idx) => {
+                return  <p 
+                            key={idx}
                             onClick={() => handleLeftClickShoppingList(idx)}
                             style={(product.isCrossed) ? {textDecoration: 'line-through'} : null}
                             onContextMenu={(e) => {
@@ -18,6 +23,8 @@ const ShoppingList = ({products, handleLeftClickShoppingList, handleIsCrossedCha
                         </p>
                 })}
             </ul>
+                </div>
+            </div>
         </div>
       ) 
 };
