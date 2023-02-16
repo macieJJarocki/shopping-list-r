@@ -15,9 +15,9 @@ function App() {
     return product
   }))
 
-  const[productsList, setProductsList] = useState([])
+  const [productsToDisplay, setProductsToDisplay] = useState([...products])
 
-  const [productSubstring, setProductSubstring] = useState('')
+  const[productsList, setProductsList] = useState([])
 
   // ProductsList
   function handleLeftClick(productName){
@@ -63,15 +63,13 @@ function App() {
   return (
     <div className={styles.appWrapper}>
       <Filter
-        productSubstring={productSubstring}
-        setProductSubstring={setProductSubstring}
         products={products}
-        setProducts={setProducts}
+        setProductsToDisplay={setProductsToDisplay}
        
       />
       <div className={styles.columnsWrapper}>
         <ProductsList
-          products={products}
+          productsToDisplay={productsToDisplay}
           handleLeftClick={handleLeftClick}
         />
         <ShoppingList 
