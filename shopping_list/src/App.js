@@ -4,7 +4,7 @@ import ProductsList from './Components/ProductsList';
 import ShoppingList from './Components/ShoppingList';
 import Filter from './Components/Filter';
 import AddProduct from './Components/AddProduct';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {products as p} from './common/products'
 
 //TODO  Function handleIsCrossedChange in ShoppingList strikes out duplicate items in a list
@@ -18,6 +18,10 @@ function App() {
   const [productsToDisplay, setProductsToDisplay] = useState([...products])
 
   const[productsList, setProductsList] = useState([])
+
+  useEffect(() => {
+    setProductsToDisplay(products)
+  }, [products])
 
   // ProductsList
   function handleLeftClick(productName){
