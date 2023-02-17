@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react"
+
 import styles from "../App.module.scss"
-const Filter = ({products, setProductsToDisplay}) => {
+
+const Filter = ({ productsDefaultList, setProductsToDisplay }) => {
   
   const [phrase, setPhrase] = useState("")
   const [category, setCategory] = useState("All")
@@ -11,13 +13,12 @@ const Filter = ({products, setProductsToDisplay}) => {
   }, [phrase, category, isFood])
 
   function returnCategoryOptions(){
-    const categoriesOptions = [...new Set(products.map((product) => product["category"]))]
+    const categoriesOptions = [...new Set(productsDefaultList.map((product) => product["category"]))]
     return categoriesOptions.map((category, idx) => {return<option key={idx}>{category}</option>})
-    
   }
   
   function handleForm(){
-    let filteredProducts = products.filter(product => product.name.includes(phrase.toLocaleLowerCase()))
+    let filteredProducts = productsDefaultList.filter(product => product.name.includes(phrase.toLocaleLowerCase()))
 
     if(category !== "All"){
       filteredProducts = filteredProducts.filter(product => product.category === category)
@@ -26,6 +27,7 @@ const Filter = ({products, setProductsToDisplay}) => {
     if(isFood){
       filteredProducts = filteredProducts.filter(product => product.foodProduct === isFood)
     }
+
     setProductsToDisplay(filteredProducts)
   }
 
@@ -49,7 +51,7 @@ const Filter = ({products, setProductsToDisplay}) => {
           value={isFood}
           onChange={(e) =>setIsFood( e.target.checked)}
         />
-    </form>
+      </form>
     </div>
   )
 };

@@ -1,26 +1,26 @@
-import React from "react";
 import styles from "../App.module.scss"
 
-const ProductsList = ({productsToDisplay, handleLeftClick}) => {
+const ProductsList = ({ productsToDisplay, handleLeftClickProductsList }) => {
+  
   return (
     <div className={styles.App}>
-    <div className={styles.AppList}>
-      <div className={styles.AppHeader}>
-        <h1>Available products:</h1>  
-      </div>
       <div className={styles.AppList}>
-        <ul>{productsToDisplay.map((product, idx) => 
-          <p 
-            key={idx + 'P'} 
-            onClick={() => handleLeftClick(product.name)}
-          >
-            {product.name}
-          </p>
+        <div className={styles.AppHeader}>
+          <h3>Available products:</h3>  
+        </div>
+        <div className={styles.AppList}>
+          <ul>{productsToDisplay.map((product, idx) => 
+            <p 
+              key={idx} 
+              onClick={() => handleLeftClickProductsList(product.name)}
+            >
+              {product.name}
+            </p>
           )}
-        </ul>
+          </ul>
+        </div>
       </div>
     </div>
-  </div>
   )
 };
 

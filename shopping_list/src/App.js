@@ -1,57 +1,55 @@
-import logo from './logo.svg';
-import styles from'./App.module.scss';
+import { useEffect, useState } from 'react';
+
 import ProductsList from './Components/ProductsList';
 import ShoppingList from './Components/ShoppingList';
 import Filter from './Components/Filter';
 import AddProduct from './Components/AddProduct';
-import { useEffect, useState } from 'react';
-import {products as p} from './common/products'
 
-//TODO  Function handleIsCrossedChange in ShoppingList strikes out duplicate items in a list
+import styles from'./App.module.scss';
+import {products} from './common/products'
+
+//  Function handleRightClickShoppingList in ShoppingList component crossed out all duplicate items in a list
+//  Issue related to the state?
 
 function App() {
-  const [products, setProducts] = useState(p.map((product, idx) => {
-    product.id = idx
-    return product
-  }))
 
-  const [productsToDisplay, setProductsToDisplay] = useState([...products])
-
-  const[productsList, setProductsList] = useState([])
+  const [productsDefaultList, setProductsDefaultList] = useState(products)
+  const [productsToDisplay, setProductsToDisplay] = useState([...productsDefaultList])
+  const [productsShoppingList, setProductsShoppingList] = useState([])
 
   useEffect(() => {
-    setProductsToDisplay(products)
-  }, [products])
+    setProductsToDisplay(productsDefaultList)
+  }, [productsDefaultList])
 
   // ProductsList
-  function handleLeftClick(productName){
-    const product = products.filter((product) => {
+  function handleLeftClickProductsList(productName){
+    const product = productsDefaultList.filter((product) => {
       if(product.name === productName){
         product.isCrossed = false
-
         return product
       }
       return null
     })
-    setProductsList(productsList.concat(product))
+
+    setProductsShoppingList(productsShoppingList.concat(product))
   }
   
   // ShoppingList
   function handleLeftClickShoppingList(idx){
-    const products = productsList.filter((product, i) =>
-      idx !== i)
-      setProductsList(products)
+    const products = productsShoppingList.filter((product, i) => idx !== i)
+    setProductsShoppingList(products)
   }
 
-  function handleIsCrossedChange(idx){
-    const productsChanged = productsList.map((product, i) => {
-        console.log(`${product.name}: idx ${idx} - i ${i}`)
-        if(idx === i){
-            product.isCrossed = !product.isCrossed
-    }
-    return product
-   }) 
-   setProductsList(productsChanged)
+  function handleRightClickShoppingList(idx){
+    const productsChanged = productsShoppingList.map((product, i) => {
+      // console.log(`${product.name}: idx ${idx} - i ${i}`)
+      if(idx === i){
+          product.isCrossed = !product.isCrossed
+      }
+      return product
+    })
+
+    setProductsShoppingList(productsChanged)
 }
 
 // AddProduct
@@ -61,13 +59,14 @@ function App() {
       category: category,
       foodProduct: isFood
     }
-    setProducts([...products, product])
+
+    setProductsDefaultList([...productsDefaultList, product])
   }
 
   return (
     <div className={styles.appWrapper}>
       <Filter
-        products={products}
+        productsDefaultList={productsDefaultList}
         setProductsToDisplay={setProductsToDisplay}
       />
       <AddProduct
@@ -76,18 +75,16 @@ function App() {
       <div className={styles.columnsWrapper}>
         <ProductsList
           productsToDisplay={productsToDisplay}
-          handleLeftClick={handleLeftClick}
-          />
+          handleLeftClickProductsList={handleLeftClickProductsList}
+        />
+
         <ShoppingList 
-          products={productsList}
+          productsShoppingList={productsShoppingList}
           handleLeftClickShoppingList={handleLeftClickShoppingList}
-          handleIsCrossedChange = {handleIsCrossedChange}
-          />
+          handleRightClickShoppingList = {handleRightClickShoppingList}
+        />
       </div>
     </div>
-    
-
-
   );
 }
 
